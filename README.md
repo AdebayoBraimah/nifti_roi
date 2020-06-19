@@ -9,7 +9,9 @@ Requirements:
 	* `nibabel`
 * `FSL v6.0+`
 
-Note: this script depends heavily on several of `FSL`'s binaries, and is therefore not executable on Windows platforms.
+**Note**: 
+* This script depends heavily on several of `FSL`'s binaries, and is therefore not executable on Windows platforms.
+* `Python` environmental issues may arise. If so, try this: `export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${FSLDIR}/fslpython/envs/fslpython/lib`.
 
 ```
 usage: vol_stats_ROI_overlap.py [-h] -i STATS.nii.gz -o OUTPUT.csv -a
