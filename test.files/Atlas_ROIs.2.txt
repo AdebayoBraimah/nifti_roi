@@ -1,0 +1,52 @@
+Name:                   Atlas_ROIs.2.nii.gz
+Type:                   Volume
+Structure:              Invalid 
+Data Size:              3.61 Megabytes
+Maps to Surface:        false
+Maps to Volume:         true
+Maps with LabelTable:   true
+Maps with Palette:      false
+Number of Maps:         1
+Orthogonal:             true
+NIFTI Version:          1
+NIFTI Data Type:        NIFTI_TYPE_FLOAT32
+Dimensions:             91, 109, 91
+IJK = (0,0,0):          XYZ = (90, -126, -72)
+X-minimum:              -91.000
+X-maximum:              91.000
+Y-minimum:              -127.000
+Y-maximum:              91.000
+Z-minimum:              -73.000
+Z-maximum:              109.000
+Orientation[0]:         Right to Left
+Orientation[1]:         Posterior to Anterior
+Orientation[2]:         Inferior to Superior
+Spacing:                2, 2, 2
+
+Map   Map Name   
+  1              
+
+Label table for ALL maps
+       KEY   NAME                           RED   GREEN    BLUE   ALPHA   
+         0   ???                          1.000   1.000   1.000   0.000   
+         8   CEREBELLUM_LEFT              0.902   0.580   0.133   1.000   
+        10   THALAMUS_LEFT                0.000   0.463   0.055   1.000   
+        11   CAUDATE_LEFT                 0.478   0.729   0.863   1.000   
+        12   PUTAMEN_LEFT                 0.925   0.051   0.690   1.000   
+        13   PALLIDUM_LEFT                0.047   0.188   1.000   1.000   
+        16   BRAIN_STEM                   0.467   0.624   0.690   1.000   
+        17   HIPPOCAMPUS_LEFT             0.863   0.847   0.078   1.000   
+        18   AMYGDALA_LEFT                0.404   1.000   1.000   1.000   
+        26   ACCUMBENS_LEFT               1.000   0.647   0.000   1.000   
+        28   DIENCEPHALON_VENTRAL_LEFT    0.647   0.165   0.165   1.000   
+        47   CEREBELLUM_RIGHT             0.902   0.580   0.133   1.000   
+        49   THALAMUS_RIGHT               0.000   0.463   0.055   1.000   
+        50   CAUDATE_RIGHT                0.478   0.729   0.863   1.000   
+        51   PUTAMEN_RIGHT                0.925   0.051   0.690   1.000   
+        52   PALLIDUM_RIGHT               0.051   0.188   1.000   1.000   
+        53   HIPPOCAMPUS_RIGHT            0.863   0.847   0.078   1.000   
+        54   AMYGDALA_RIGHT               0.404   1.000   1.000   1.000   
+        58   ACCUMBENS_RIGHT              1.000   0.647   0.000   1.000   
+        60   DIENCEPHALON_VENTRAL_RIGHT   0.647   0.165   0.165   1.000   
+
+
