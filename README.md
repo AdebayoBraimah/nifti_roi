@@ -1,4 +1,4 @@
-# vol_stats_ROI_overlap
+# nifti_roi
 
 Identifies the ROIs overlapped with clusters from some input NIFTI volume file.
 
