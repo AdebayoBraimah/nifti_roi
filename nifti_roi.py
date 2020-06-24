@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import nibabel as nib
 import subprocess
+import platform
 
 # Import modules for argument parsing
 import argparse
@@ -445,3 +446,144 @@ def proc_vol(nii_file,out_file,thresh = 0.95, dist = 0, vol_atlas_num = 3, nii_a
         out_file = write_spread(nii_file,out_file,roi_list)
     
     return out_file
+
+def print_atlases():
+    '''
+    Prints all available atlases in FSL's atlasquery to the command line, in addition to their
+    corresponding number to use in nifti_rois.
+    '''
+    
+    atlas_txt = "\n\
+    Atlas Numbers (for atlasquery wrapper) \n\
+    \n\
+    1.  Cerebellar Atlas in MNI152 space after normalization with FLIRT \n\
+    2.  Cerebellar Atlas in MNI152 space after normalization with FNIRT \n\
+    3.  Harvard-Oxford Cortical Structural Atlas \n\
+    4.  Harvard-Oxford Subcortical Structural Atlas \n\
+    5.  Human Sensorimotor Tracts Labels \n\
+    6.  JHU ICBM-DTI-81 White-Matter Labels \n\
+    7.  JHU White-Matter Tractography Atlas \n\
+    8.  Juelich Histological Atlas \n\
+    9.  MNI Structural Atlas \n\
+    10. Mars Parietal connectivity-based parcellation \n\
+    11. Mars TPJ connectivity-based parcellation \n\
+    12. Neubert Ventral Frontal connectivity-based parcellation \n\
+    13. Oxford Thalamic Connectivity Probability Atlas \n\
+    14. Oxford-Imanova Striatal Connectivity Atlas 3 sub-regions \n\
+    15. Oxford-Imanova Striatal Connectivity Atlas 7 sub-regions \n\
+    16. Oxford-Imanova Striatal Structural Atlas \n\
+    17. Sallet Dorsal Frontal connectivity-based parcellation \n\
+    18. Subthalamic Nucleus Atlas \n\
+    19. Talairach Daemon Labels \n"
+    
+    print(atlas_txt)
+    
+    return None
+
+if __name__ == "__main__":
+
+    # Check system
+    if platform.system().lower() == 'windows':
+        print("")
+        print("\tThe required software (FSL) is not installable on Windows platforms. Exiting.")
+        print("")
+        sys.exit(1)
+
+    # Argument parser
+    parser = argparse.ArgumentParser(description="Finds NIFTI volume clusters and writes the overlapping ROIs to a CSV file.\n\
+\n\
+This process can be performed using either one to two methods:\n\
+\n\
+1. A NIFTI volume file is provided, along with an atlas number to determine which ROI the cluster overlaps (this requires the input NIFTI volume to be in MNI space).\n\
+2. A NIFTI volume file is provided, along with a separate atlas NIFTI volume and an enumrated CSV file, that contains the ROI intensity values as a number-ROI pair (this requires the input NIFTI volume to be in this atlas' space.) \n\
+\n\
+For a list of available atlases, see the '--dump-atlases' option for details.\n\
+\n\
+Note: enumrated CSV files must not contain Window's carriage returns.",
+# usage="use '%(prog)s --help' for more information",
+formatter_class=argparse.RawTextHelpFormatter)
+
+    # Parse Arguments
+    # Required Arguments
+    reqoptions = parser.add_argument_group('Required arguments')
+    reqoptions.add_argument('-i', '-in', '--input',
+                            type=str,
+                            dest="nii",
+                            metavar="STATS.nii.gz",
+                            required=False,
+                            help="NIFTI image file.")
+    reqoptions.add_argument('-o', '-out', '--output',
+                            type=str,
+                            dest="out_file",
+                            metavar="OUTPUT.csv",
+                            required=False,
+                            help="Output spreadsheet name.")
+
+    # Atlasquery options
+    atlqoptions = parser.add_argument_group('Atlasquery options')
+    atlqoptions.add_argument('--atlas-num',
+                            type=int,
+                            dest="atlas_num",
+                            metavar="INT",
+                            required=False,
+                            help="Atlas number. See '--dump-atlases' for details.")
+
+    # Stand-alone atlas options
+    atlsoptions = parser.add_argument_group('Stand-alone atlas options')
+    atlsoptions.add_argument('-a', '-atlas', '--atlas',
+                            type=str,
+                            dest="atlas",
+                            metavar="ATLAS.nii.gz",
+                            required=False,
+                            help="NIFTI atlas file.")
+    atlsoptions.add_argument('-info', '--atlas-info',
+                            type=str,
+                            dest="info",
+                            metavar="ATLAS.info.csv",
+                            required=False,
+                            help="Atlas information file.")
+
+    # Optional Arguments
+    optoptions = parser.add_argument_group('Optional arguments')
+    optoptions.add_argument('-t', '-thresh', '--thresh',
+                            type=float,
+                            dest="thresh",
+                            metavar="FLOAT",
+                            default=0.95,
+                            required=False,
+                            help="Cluster threshold. [default: 0.95]")
+    optoptions.add_argument('-d', '-dist', '--distance',
+                            type=float,
+                            dest="dist",
+                            metavar="FLOAT",
+                            default=0,
+                            required=False,
+                            help="Minimum distance between clusters. [default: 0]")
+    optoptions.add_argument('--dump-atlases',
+                            dest="dump_atlases",
+                            required=False,
+                            action="store_true",
+                            help="Prints available atlases and its corresponding atlas number.")
+
+    args = parser.parse_args() 
+
+    # Print help message in the case
+    # of no arguments
+    try:
+        args = parser.parse_args()
+    except SystemExit as err:
+        if err.code == 2:
+            parser.print_help()
+
+    # Run
+    if args.dump_atlases:
+        print_atlases()
+    elif args.nii and args.out_file and args.atlas and args.info:
+        args.out_file = proc_vol(nii_file=args.nii,out_file=args.out_file,thresh=args.thresh,dist=args.dist,nii_atlas=args.atlas,atlas_info=args.info)
+    elif args.nii and args.out_file and args.atlas_num:
+        args.out_file = proc_vol(nii_file=args.nii,out_file=args.out_file,thresh=args.thresh,dist=args.dist,vol_atlas_num=args.atlas_num)
+    else:
+        print("")
+        print("No valid options specified. Please see help menu for details.")
+        print("")
+        sys.exit(1)
