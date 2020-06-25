@@ -1,5 +1,42 @@
 #!/usr/bin/env python
 
+'''
+This module is primarily intended for use-cases in which single-subject or group statistics have been performed. In these scenarios,
+the regions of interests (ROIs) that are overlapped by these clusters are identified. This can be performed using either one of two 
+methods:
+
+1. The input NIFTI volume is assumed to be in MNI space -- then FSL's atlasquery can identify the ROI provided an atlas (see below for details).
+2. The input NIFTI volume is assumed to be in the same space as a provided atlas, in addition to an enumerated number, ROI CSV file.
+
+An output CSV file is then written or appended to, containing the filename and the names of the ROIs overlapped by the clusters in the
+input NIFTI volume. If no clusters were identified, then nothing is written to file.
+
+Note: Enumrated CSV files must not contain Window's carriage returns.
+
+Atlas Numbers (for atlasquery wrapper) 
+
+1.  Cerebellar Atlas in MNI152 space after normalization with FLIRT 
+2.  Cerebellar Atlas in MNI152 space after normalization with FNIRT 
+3.  Harvard-Oxford Cortical Structural Atlas 
+4.  Harvard-Oxford Subcortical Structural Atlas 
+5.  Human Sensorimotor Tracts Labels 
+6.  JHU ICBM-DTI-81 White-Matter Labels 
+7.  JHU White-Matter Tractography Atlas 
+8.  Juelich Histological Atlas 
+9.  MNI Structural Atlas 
+10. Mars Parietal connectivity-based parcellation 
+11. Mars TPJ connectivity-based parcellation 
+12. Neubert Ventral Frontal connectivity-based parcellation 
+13. Oxford Thalamic Connectivity Probability Atlas 
+14. Oxford-Imanova Striatal Connectivity Atlas 3 sub-regions 
+15. Oxford-Imanova Striatal Connectivity Atlas 7 sub-regions 
+16. Oxford-Imanova Striatal Structural Atlas 
+17. Sallet Dorsal Frontal connectivity-based parcellation 
+18. Subthalamic Nucleus Atlas 
+19. Talairach Daemon Labels 
+
+'''
+
 # Import modules
 import os
 import re
